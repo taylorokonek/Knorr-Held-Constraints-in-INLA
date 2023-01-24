@@ -91,8 +91,7 @@ mod_main <- inla(formula_base,
              data = ohiosp,
              family = "poisson",
              E = expected,
-             control.predictor = list(compute = TRUE),
-             control.compute = list(config = TRUE, dic = TRUE, waic = TRUE, cpo = TRUE))
+             control.compute = list(config = TRUE)) # needed if you want to see constraints later
 
 # Check the number of constraints in our model
 # We should have:
@@ -124,7 +123,8 @@ formulaI <- update(formula_base, ~. + f(spacetime.unstruct, model="iid",
 modI <- inla(formulaI,
              data = ohiosp,
              family = "poisson",
-             E = expected)
+             E = expected,
+             control.compute = list(config = TRUE))
 
 # Check the number of constraints in our model
 # We should have:
@@ -169,7 +169,8 @@ ptm <- Sys.time()
 # modII <- inla(formulaII,
 #              data = ohiosp,
 #              family = "poisson",
-#              E = expected)
+#              E = expected,
+#              control.compute = list(config = TRUE))
 Sys.time() - ptm
 
 # Check the number of constraints in our model
@@ -216,7 +217,8 @@ ptm <- Sys.time()
 # modIII <- inla(formulaIII,
 #               data = ohiosp,
 #               family = "poisson",
-#               E = expected)
+#               E = expected,
+#               control.compute = list(config = TRUE))
 Sys.time() - ptm
 
 
@@ -260,7 +262,8 @@ ptm <- Sys.time()
 # modIV <- inla(formulaIV,
 #                data = ohiosp,
 #                family = "poisson",
-#                E = expected)
+#                E = expected,
+#                control.compute = list(config = TRUE))
 Sys.time()-ptm
 
 
@@ -317,6 +320,12 @@ A <- matrix(RW_eigen$vectors[,21], nrow = 1)
 # typically zero), as intended
 
 A %*% RW_prec
+
+# NOTE: This approach to obtaining a constraint matrix will FULLY constrain the null space
+# of your matrix!! This is not always desired!! For example, if you have a model 
+# with only a RW1 and no intercept, constraining the RW1 will give you different results
+# than not constraining it, because the null space in the RW1 is not spanned by any other
+# fixed/random effect in the linear predictor.
 
 
 
