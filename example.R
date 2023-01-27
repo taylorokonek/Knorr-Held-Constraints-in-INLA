@@ -184,9 +184,9 @@ modII$misc$configs$constr$nc
 
 # Type III Interaction ----------------------------------------------------------
 
-# Type II Interaction: 
+# Type III Interaction: 
 # - ICAR Space x IID Time 
-# - Constraints: The ICAR at each time needs to sum to 1
+# - Constraints: The ICAR at each time needs to sum to 0
 # - Number of constraints = rank deficiency of precision = S
 
 ### creating constraint needed for Type III Interaction
@@ -245,6 +245,8 @@ space_constr <- matrix(0, S-1, N * S)
 for (i in 1:(S-1)) { 
   space_constr[i, ((i - 1) * N + 1):(i * N)] <- 1
 }
+
+# N * S - (N - 1) * (S - 1) = N + S - 1
 
 tmp <- rbind(time_constr, space_constr) 
 constr.st <- list(A = tmp, e = rep(0, dim(tmp)[1]))
