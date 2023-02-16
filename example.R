@@ -329,6 +329,20 @@ A %*% RW_prec
 # than not constraining it, because the null space in the RW1 is not spanned by any other
 # fixed/random effect in the linear predictor.
 
+# If you have a Type IV interaction with RW2 %*% ICAR, but you only want RW1 %*% ICAR 
+# constraints, then you could always obtain the eigenvalues from a RW1 %*% ICAR matrix
+# and use this constraint matrix. You should always correctly specify the rank deficiency
+# in generic0, however, even if you aren't fully constraining the random effect.
+
+
+# A note on Islands -------------------------------------------------------
+
+# If you have an island, you have a disconnected graph. See this paper for details on
+# what do to: https://arxiv.org/abs/1705.04854
+# (in summary, make sure you've set scale = TRUE, and adjust.for.con.comp = TRUE)
+
+
+
 
 
 
